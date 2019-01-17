@@ -1,0 +1,76 @@
+#include <math.h>
+#include <stdio.h>
+#define Pi 3.141592653589793
+#define S 0.00000000000001
+double Stat3new (double **u,int n,int b, double R0, double K, double H)
+{
+  double zero,v1,v2,v4,v5,v6,v7,s1,s2,h2i,h,k;
+	int i,j;
+	zero=0.0;h=1.0/(n-1); 
+	h2i=1.0/(h*h);
+	for(i=2;i<(int)(n*R0-R0+1);i++)
+	{
+		s2=0.0;
+		for (j=b+2;j<(int)(n*H-H+1)-b;j++)
+		{
+			v1=(u[i][j+1]-u[i][j]);
+			v2=(u[i][j]-u[i][j-1]);
+			v4=(u[i+1][j]-u[i][j]);
+			v5=(u[i][j]-u[i-1][j]);
+			v6=u[i+1][j+1]-u[i-1][j+1];
+			v7=u[i-1][j-1]-u[i+1][j-1];  
+			    
+			s1=((v4-v5)+(v1-v2));
+			s2=s2+fabs(s1);
+			
+		}
+		zero=zero+s2;
+	}
+
+	
+		for(i=3*b+3;i<(int)(n*R0-R0+1);i++)
+	{
+		s2=0.0;
+		for (j=2;j<=1+b;j++)
+		{
+			v1=(u[i][j+1]-u[i][j]);
+			v2=(u[i][j]-u[i][j-1]);
+			v4=(u[i+1][j]-u[i][j]);
+			v5=(u[i][j]-u[i-1][j]);
+			v6=u[i+1][j+1]-u[i-1][j+1];
+			v7=u[i-1][j-1]-u[i+1][j-1];  
+			    
+			s1=((v4-v5)+(v1-v2));
+			s2=s2+fabs(s1);
+			
+		}
+		zero=zero+s2;
+	}
+
+		
+	for(i=2;i<(int)(n*R0-R0+1)-b;i++)
+	{
+		s2=0.0;
+		for (j=(int)(n*H-H+1)-b;j<(int)(n*H-H+1);j++)
+		{
+		        v1=(u[i][j+1]-u[i][j]);
+			v2=(u[i][j]-u[i][j-1]);
+			v4=(u[i+1][j]-u[i][j]);
+			v5=(u[i][j]-u[i-1][j]);
+			v6=u[i+1][j+1]-u[i-1][j+1];
+			v7=u[i-1][j-1]-u[i+1][j-1];  
+			    
+			s1=((v4-v5)+(v1-v2));
+			s2=s2+fabs(s1);
+		
+			
+		}
+		zero=zero+s2;
+	}
+
+
+	k=((int)(n*R0-R0+1)-2)*((int)(n*H-H+1)-2*b-2)+((int)(n*R0-R0+1)-3*b-3)*b+((int)(n*R0-R0+1)-2-b)*b;
+	
+	zero=zero/k;
+	return zero;
+}

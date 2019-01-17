@@ -1,0 +1,3 @@
+1, M-x compile (note: M-x is option+x)
+2, Compile command: make -k output (the output file)
+3, 
